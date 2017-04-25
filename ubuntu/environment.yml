@@ -9,6 +9,7 @@ channels:
   - bioconda
   - cyclus # java-jdk for windows
   - conda-forge # libxml2 for windows
+  - bjornfjohansson # wxpython 3.0.2.0
 dependencies:
   - appdirs
   - cython
@@ -35,7 +36,7 @@ dependencies:
   - scikit-learn
   - scipy
   - tifffile
-  - wxpython
+  - wxpython=3.0.2.0
   - pip:
     - cellh5
     - centrosome
