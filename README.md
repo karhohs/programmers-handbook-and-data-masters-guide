@@ -1,5 +1,5 @@
 # conda-env-4-cellprofiler
-A conda environment YAML file that configures python for running CellProfiler from source.
+A conda environment YAML file that configures python for running CellProfiler from source. For installation instructions visit the [CellProfiler GitHub wiki](https://github.com/CellProfiler/CellProfiler/wiki/Conda-Installation)
 
 # Troubleshooting
 There are known difficulties presented by the *wxpython* package. This is the main reason why there are system specific YML files.
