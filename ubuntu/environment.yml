@@ -1,15 +1,12 @@
 # run: conda env create -f environment.yml
 # run: conda env update -f environment.yml
 # run: conda env remove -n cellprofiler
-name: cellprofiler
+name: cellprofiler2
 # in order of priority: lowest (top) to highest (bottom)
 channels:
-  - anaconda
-  - goodman # mysql-python for mac
   - bioconda
-  - cyclus # java-jdk for windows
-  - conda-forge # libxml2 for windows
-  - bjornfjohansson # wxpython 3.0.2.0
+  - conda-forge
+  - anaconda
 dependencies:
   - appdirs
   - cython
@@ -37,10 +34,3 @@ dependencies:
   - scikit-learn
   - scipy
   - tifffile
-  - wxpython=3.0.2.0
-  - pip:
-    - cellh5
-    - centrosome
-    - inflect
-    - prokaryote
-    - python-bioformats
