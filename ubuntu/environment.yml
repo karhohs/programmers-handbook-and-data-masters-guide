@@ -4,12 +4,10 @@
 name: cellprofiler
 # in order of priority: lowest (top) to highest (bottom)
 channels:
-  - anaconda
-  - goodman # mysql-python for mac
+  - bjornfjohansson
   - bioconda
-  - cyclus # java-jdk for windows
-  - conda-forge # libxml2 for windows
-  - bjornfjohansson # wxpython 3.0.2.0
+  - conda-forge
+  - anaconda
 dependencies:
   - appdirs
   - cython
