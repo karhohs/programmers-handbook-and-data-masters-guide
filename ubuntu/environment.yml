@@ -1,9 +1,10 @@
 # run: conda env create -f environment.yml
 # run: conda env update -f environment.yml
 # run: conda env remove -n cellprofiler
-name: cellprofiler2
+name: cellprofiler
 # in order of priority: lowest (top) to highest (bottom)
 channels:
+  - bjornfjohansson
   - bioconda
   - conda-forge
   - anaconda
@@ -34,3 +35,10 @@ dependencies:
   - scikit-learn
   - scipy
   - tifffile
+  - wxpython=3.0.2.0
+  - pip:
+    - cellh5
+    - centrosome
+    - inflect
+    - prokaryote
+    - python-bioformats
