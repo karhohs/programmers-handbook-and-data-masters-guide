@@ -4,6 +4,7 @@
 name: cytominer
 # in order of priority: lowest (top) to highest (bottom)
 channels:
+  - bioconda
   - conda-forge
   - r
   - anaconda
