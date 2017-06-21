@@ -1,0 +1,33 @@
+# run: conda env create -f conda_env_cytominer.yml
+# run: conda env update -f conda_env_cytominer.yml
+# run: conda env remove -n cytominer
+name: cytominer
+# in order of priority: lowest (top) to highest (bottom)
+channels:
+  - conda-forge
+  - r
+  - anaconda
+dependencies:
+  - ipython
+  - pip
+  - python=3
+  - pyyaml
+  - r
+  - r-devtools
+  - r-dplyr
+  - r-docopt
+  - r-essentials
+  - r-feather
+  - r-ggplot2
+  - r-knitr
+  - r-magrittr
+  - r-readr
+  - r-rmarkdown
+  - r-rsqlite
+  - r-stringr
+  - r-stringi
+  - r-testthat
+  - r-tidyr
+  - pip:
+    - awscli
+    - "--editable=git+https://github.com/0x00b1/persistence.git@master#egg=persistence"
