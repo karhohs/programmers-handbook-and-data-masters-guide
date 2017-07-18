@@ -35,6 +35,7 @@ dependencies:
   - scikit-image
   - scikit-learn
   - scipy
+  - sphinx
   - tifffile
   - wxpython
   - pip:
