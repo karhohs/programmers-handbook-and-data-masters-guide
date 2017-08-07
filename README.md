@@ -1,5 +1,14 @@
-# conda-env-4-cellprofiler
-A conda environment YAML file that configures python for running CellProfiler from source. For installation instructions visit the [CellProfiler GitHub wiki](https://github.com/CellProfiler/CellProfiler/wiki/Conda-Installation)
+# conda-env-archetypes
+This repo was originally created to document conda environment YAML files that configures python for running CellProfiler from source. For installation instructions visit the [CellProfiler GitHub wiki](https://github.com/CellProfiler/CellProfiler/wiki/Conda-Installation). Since then I have found this useful for documenting conda environments for other uses. See examples below.
+
+## bioimaging
+@karhohs's general purpose python environment for working with bioimages.
+
+## cellprofiler
+A python environment sufficient for running [cellprofiler](https://github.com/CellProfiler/CellProfiler) from source.
+
+## cytominer
+A python and R environment sufficient for running cytominer.
 
 # Troubleshooting
 There are known difficulties presented by the *wxpython* package. This is the main reason why there are system specific YML files.
