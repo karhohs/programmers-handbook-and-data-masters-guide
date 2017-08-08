@@ -32,7 +32,6 @@ dependencies:
   - sqlalchemy # working with SQL databases
   - xlrd # Microsoft Excel
   - pip:
-    - wand # python interface to ImageMagick
     - dash # Shiny is to R as Dash is to Python
     - dash-renderer
     - dash-html-components
