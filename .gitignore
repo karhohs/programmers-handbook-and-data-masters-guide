@@ -1,1 +1,29 @@
-src/
+# Python
+*.pyc
+.cache/
+
+# Rproj
+.RData
+.Rproj.user
+
+# IPython Notebook
+.ipynb_checkpoints
+
+# Intellij PyCharm
+.idea/
+
+# PowerPoint
+*.ppt
+*.pptx
+
+# CellProfiler
+*.cpproj
+output/
+
+# Ilastik
+*.ilp
+
+# Terraform
+*.tfstate
+*.tfstate.backup
+.terraform
