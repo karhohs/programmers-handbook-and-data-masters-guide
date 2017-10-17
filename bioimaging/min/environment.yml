@@ -1,6 +1,6 @@
 # run: conda env create -f environment.yml
 # run: conda env update -f environment.yml
-# run: conda env remove -n cellprofiler
+# run: conda env remove -n bioimgmin
 name: bioimgmin
 # in order of priority: lowest (top) to highest (bottom)
 channels:

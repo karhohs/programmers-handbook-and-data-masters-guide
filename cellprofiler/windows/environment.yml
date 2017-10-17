@@ -37,7 +37,7 @@ dependencies:
   - scipy
   - sphinx
   - tifffile
-  - wxpython
+  - wxpython=3
   - pip:
     - cellh5
     - centrosome
