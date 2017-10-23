@@ -1,0 +1,17 @@
+# run: conda env create -f environment.yml
+# run: conda env update -f environment.yml
+# run: conda env remove -n bioimgr
+name: bioimgr
+# in order of priority: lowest (top) to highest (bottom)
+channels:
+  - r
+  - anaconda
+dependencies:
+  - r # stats!
+  - r-dplyr # transform tabular data
+  - r-essentials # gets R going
+  - r-ggplot2 # beautiful plotting
+  - r-magrittr # pipes
+  - r-studio # best tool for R notebooks
+  - r-tidyr # makes dplyr better
+
