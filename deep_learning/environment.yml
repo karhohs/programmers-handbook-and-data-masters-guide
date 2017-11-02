@@ -1,16 +1,17 @@
 # run: conda env create -f environment.yml
 # run: conda env update -f environment.yml
-# run: conda env remove -n bioimg
-name: bioimg
+# run: conda env remove -n dplrn
+name: dplrn
 # in order of priority: lowest (top) to highest (bottom)
 channels:
   - conda-forge
   - anaconda
 dependencies:
-  - click # adds nice cli features.
   - cython # wrapping Python around C. C is fast.
+  - dask # parallelization
   - h5py # for the ubiquitous HDF5 file format. 
   - jupyter # great tool for any python project.
+  - keras # deep learning library
   - pandas # working with tabulated data
   - pillow # classic fork of Python Imaging Library
   - pip # THE python package manager
@@ -20,13 +21,9 @@ dependencies:
   - scikit-image # image processing
   - scikit-learn # machine learning
   - scipy # numerical methods
-  - seaborn # plotting statistical data
   - sqlalchemy # working with SQL databases
+  - tensorflow # deep learning backend for keras
   - tqdm # popular progress bar for jupyter
-  - xlrd # Microsoft Excel
   - pip:
-    - dash # Shiny is to R as Dash is to Python
-    - dash-renderer
-    - dash-html-components
-    - dash-core-components
-    - plotly  # fancy python plotting
+    - keras-tqdm # tqdm for keras
+    - tensorflow-gpu # deep learning on GPU hardware
