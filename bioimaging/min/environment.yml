@@ -14,6 +14,7 @@ dependencies:
   - pandas # working with tabulated data
   - pillow # popular fork of Python Imaging Library
   - pip # THE python package manager
+  - pytables # helps pandas read more file formats
   - python=3 # the latest python release
   - matplotlib # standard python plotting
   - numpy # essential math and matrix operations
