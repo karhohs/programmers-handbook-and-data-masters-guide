@@ -9,7 +9,7 @@ channels:
 dependencies:
   - click # adds nice cli features.
   - cython # wrapping Python around C. C is fast.
-  - h5py # for the ubiquitous HDF5 file format. 
+  - h5py # for the ubiquitous HDF5 file format.
   - jupyter # great tool for any python project.
   - pandas # working with tabulated data
   - pillow # popular fork of Python Imaging Library
@@ -25,4 +25,3 @@ dependencies:
   - sqlalchemy # working with SQL databases
   - tqdm # popular progress bar for jupyter
   - xlrd # Microsoft Excel
-  - pip:
