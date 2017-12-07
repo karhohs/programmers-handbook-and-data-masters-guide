@@ -2,7 +2,7 @@
 # run: conda env update -f environment.yml
 # run: conda env remove -n cellprofiler
 name: cellprofiler
-# in order of priority: lowest (top) to highest (bottom)
+# in order of priority: low (top) to high (bottom)
 channels:
   - bjornfjohansson
   - bioconda
