@@ -43,4 +43,4 @@ dependencies:
     - --editable=git+https://github.com/CellProfiler/CellProfiler.git@master#egg=cellprofiler
     - inflect
     - prokaryote
-    - python-bioformats
+    - python-bioformats=1.3.2
