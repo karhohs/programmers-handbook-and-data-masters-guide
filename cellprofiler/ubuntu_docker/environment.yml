@@ -1,0 +1,46 @@
+# run: conda env create -f environment.yml
+# run: conda env update -f environment.yml
+# run: conda env remove -n cellprofiler
+name: cellprofiler
+# in order of priority: lowest (top) to highest (bottom)
+channels:
+  - bjornfjohansson
+  - bioconda
+  - conda-forge
+  - anaconda
+dependencies:
+  - appdirs
+  - cython
+  - h5py
+  - ipywidgets
+  - javabridge
+  - java-jdk
+  - jupyter
+  - libtiff
+  - libxml2
+  - libxslt
+  - lxml
+  - packaging
+  - pillow
+  - pip
+  - python=2
+  - pyzmq
+  - mahotas
+  - matplotlib
+  - mysql-python
+  - numpy
+  - raven
+  - requests
+  - scikit-image
+  - scikit-learn
+  - scipy
+  - sphinx
+  - tifffile
+  - wxpython=3.0.2.0
+  - pip:
+    - cellh5
+    - centrosome
+    - --editable=git+https://github.com/CellProfiler/CellProfiler.git@master#egg=cellprofiler
+    - inflect
+    - prokaryote
+    - python-bioformats

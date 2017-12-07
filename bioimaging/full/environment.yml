@@ -27,7 +27,8 @@ dependencies:
   - xlrd # Microsoft Excel
   - pip:
     - dash # Shiny is to R as Dash is to Python
-    - dash-renderer
-    - dash-html-components
-    - dash-core-components
-    - plotly  # fancy python plotting
+    - dash-renderer # Dash
+    - dash-html-components # Dash
+    - dash-core-components # Dash
+    - imbalanced-learn # data sampling for scikit-learn
+    - plotly  # fancy python plotting, works with Dash
