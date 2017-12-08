@@ -42,5 +42,5 @@ dependencies:
     - centrosome
     - inflect
     - prokaryote
-    - python-bioformats==1.3.2
+    - git+https://github.com/CellProfiler/python-bioformats.git
     - --editable=git+https://github.com/CellProfiler/CellProfiler.git@master#egg=cellprofiler
