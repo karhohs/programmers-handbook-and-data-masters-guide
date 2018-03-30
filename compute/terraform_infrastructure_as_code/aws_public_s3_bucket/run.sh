@@ -1,4 +1,4 @@
-source /home/ubuntu/variables.sh
+source variables.sh
 
 cd tf_aws_public_s3_bucket
 
@@ -20,6 +20,6 @@ fi
 
 BUCKET=$(terraform output id)
 
-aws s3 cp --recursive --dryrun "${FILEDIR}" "s3://${BUCKET}/"
+aws s3 cp --recursive --dryrun "${FILEDIR}" "s3://${BUCKET}/${SUBDIR}"
 
 cd ..
