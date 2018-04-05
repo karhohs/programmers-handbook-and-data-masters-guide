@@ -11,6 +11,7 @@ channels:
   - conda-forge # libxml2 for windows
 dependencies:
   - appdirs
+  - boto3
   - cython
   - h5py
   - ipywidgets
