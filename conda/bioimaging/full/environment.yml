@@ -11,6 +11,7 @@ dependencies:
   - cython # wrapping Python around C. C is fast.
   - h5py # for the ubiquitous HDF5 file format. 
   - jupyter # great tool for any python project.
+  - imagehash # detect image duplicates with perceptual hashes
   - pandas # working with tabulated data
   - pillow # classic fork of Python Imaging Library
   - pip # THE python package manager

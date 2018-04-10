@@ -1,0 +1,12 @@
+# run: conda env create -f kaggle_python.yml
+# run: conda env update -f kaggle_python.yml
+# run: conda env remove -n kaggle_python
+name: kaggle_python
+# in order of priority: lowest (top) to highest (bottom)
+channels:
+  - anaconda
+dependencies:
+  - pip # THE python package manager
+  - python=3 # the latest python release
+  - pip:
+    - kaggle

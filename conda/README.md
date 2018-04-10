@@ -11,3 +11,6 @@ A collection of packages that are essential for
 
 ## cellprofiler
 The first conda environment YAML file was for configuring Python to run CellProfiler from source. For installation instructions visit the [CellProfiler GitHub wiki](https://github.com/CellProfiler/CellProfiler/wiki/Conda-Installation). Since then I have found this useful for documenting conda environments for other uses. See examples below.
+
+## kaggle
+Kaggle has a helpful API for managing the data within their competitions. After installing the command line tool using the `kaggle_python.yml` environment file, grab an API token for your account following the directions found on [Kaggle's GitHub](https://github.com/kaggle/kaggle-api).
