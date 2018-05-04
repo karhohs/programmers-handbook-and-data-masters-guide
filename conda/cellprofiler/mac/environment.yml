@@ -12,11 +12,14 @@ channels:
   - bjornfjohansson # wxpython 3.0.2.0
 dependencies:
   - appdirs
+  - boto3
   - cython
+  - docutils
   - h5py
   - ipywidgets
   - javabridge
   - java-jdk
+  - joblib
   - jupyter
   - libtiff
   - libxml2
@@ -26,9 +29,9 @@ dependencies:
   - pillow
   - pip
   - python=2
-  - pyzmq
+  - pyzmq=15.3.0
   - mahotas
-  - matplotlib
+  - matplotlib>=2.0.0
   - mysql-python
   - numpy
   - raven
@@ -43,5 +46,5 @@ dependencies:
     - cellh5
     - centrosome
     - inflect
-    - prokaryote
-    - python-bioformats
+    - prokaryote==2.3.3
+    - python-bioformats==1.4.0

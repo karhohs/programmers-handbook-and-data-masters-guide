@@ -18,6 +18,7 @@ dependencies:
   - python=3 # the latest python release
   - matplotlib # standard python plotting
   - numpy # essential math and matrix operations
+  - nose # nicer testing
   - scikit-image # image processing
   - scikit-learn # machine learning
   - scipy # numerical methods

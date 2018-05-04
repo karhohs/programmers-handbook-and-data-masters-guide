@@ -14,3 +14,5 @@ The first conda environment YAML file was for configuring Python to run CellProf
 
 ## kaggle
 Kaggle has a helpful API for managing the data within their competitions. After installing the command line tool using the `kaggle_python.yml` environment file, grab an API token for your account following the directions found on [Kaggle's GitHub](https://github.com/kaggle/kaggle-api).
+### kaggle api notes
+* If you see an error from the command line when trying to download data, "You must accept this competition's rules before you can continue", then log in to Kaggle, find the competition homepage, and click the *Late Submission* to agree to the rules.
