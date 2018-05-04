@@ -13,6 +13,7 @@ channels:
 dependencies:
   - appdirs
   - boto3
+  - click
   - cython
   - docutils
   - h5py
@@ -21,6 +22,7 @@ dependencies:
   - java-jdk
   - joblib
   - jupyter
+  - keras
   - libtiff
   - libxml2
   - libxslt
@@ -28,23 +30,29 @@ dependencies:
   - packaging
   - pillow
   - pip
+  - pytest
   - python=2
   - pyzmq=15.3.0
   - mahotas
   - matplotlib>=2.0.0
   - mysql-python
+  - nose
   - numpy
   - raven
   - requests
   - scikit-image
   - scikit-learn
   - scipy
+  - six
   - sphinx
+  - tensorflow
   - tifffile
   - wxpython=3.0.2.0
   - pip:
     - cellh5
     - centrosome
+    - imagej
     - inflect
+    - microscopeimagequality
     - prokaryote==2.3.3
     - python-bioformats==1.4.0
