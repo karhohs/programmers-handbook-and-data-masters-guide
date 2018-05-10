@@ -35,7 +35,7 @@ dependencies:
   - pyzmq=15.3.0
   - mahotas
   - matplotlib>=2.0.0
-  - msgpack
+  - msgpack-python
   - mysql-python
   - nose
   - numpy

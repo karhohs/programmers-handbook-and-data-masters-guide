@@ -28,6 +28,7 @@ dependencies:
   - pyzmq
   - mahotas
   - matplotlib
+  - msgpack-python
   - mysql-python
   - numpy
   - raven
