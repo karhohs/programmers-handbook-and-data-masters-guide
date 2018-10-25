@@ -16,6 +16,8 @@ To see firewall, `ufw status`
 ```bash
 sudo ufw allow OpenSSH
 sudo ufw allow 8000
+sudo ufw allow 'Apache Full'
+sudo ufw delete allow 'Apache'
 sudo ufw enable
 ```
 
@@ -89,10 +91,9 @@ Add a *CNAME record* that maps www to domain name.
 
 #### Install Apache
 https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-ubuntu-18-04
-
 ```
 sudo apt install apache2
-sudo ufw allow 'Apache'
+
 
 
 sudo mkdir -p /var/www/example.com/html
@@ -133,77 +134,39 @@ sudo systemctl restart apache2
 ```
 
 ### Let's Encrypt
-https://certbot.eff.org/lets-encrypt/ubuntuxenial-other
-
+https://www.digitalocean.com/community/tutorials/how-to-secure-apache-with-let-s-encrypt-on-ubuntu-18-04
 ```
 $ sudo apt-get update
 $ sudo apt-get -y install software-properties-common
 $ sudo add-apt-repository ppa:certbot/certbot
 $ sudo apt-get update
-$ sudo apt-get -y install certbot
+$ sudo apt-get -y install python-certbot-apache
 ```
 
 ```
-sudo systemctl stop apache2
-
-sudo certbot certonly
+sudo certbot --apache -d example.com -d www.example.com
 ```
 
-Choose standalone and follow the prompts. You'll need to enter in your domain name, such as *mywebsite.com*. Record the location of the certificate files, typically `/etc/letsencrypt/live`.
+Choose to redirect to SSL. Record the location of the certificate files, typically `/etc/letsencrypt/live/example.com`.
 
 Change permission of certificates
 
 `sudo chown -R $USER:$USER /etc/letsencrypt`
-### Let's Encrypt
-https://www.digitalocean.com/community/tutorials/how-to-secure-apache-with-let-s-encrypt-on-ubuntu-18-04
-
 
 ### redirect
+https://www.digitalocean.com/community/tutorials/how-to-redirect-www-to-non-www-with-apache-on-ubuntu-14-04
 Let's Encrypt will create a new config file for the apache2 virtual host.
 
-It will be named `/etc/apache2/sites-available/mywebsite.com-le-ssl.conf`
+It will be named `/etc/apache2/sites-available/example.com-le-ssl.conf`. Use nano.
 
 Add these lines between <VirtualHost \*:443>
 ```
-<Directory /var/www/mywebsite.com/>
-        # match any URL with www and rewrite it to https without the www
-        RewriteEngine On
-        RewriteBase /
-        RewriteCond %{HTTP_HOST} !^www\. [NC]
-        RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
+<Directory /var/www/example.com/>
+  RewriteEngine On
+  RewriteBase /
+  RewriteCond %{HTTP_HOST} !^www\. [NC]
+  RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
 </Directory>
-```
-
-```
-<Directory /var/www/mywebsite.com>
-Options FollowSymLinks
-AllowOverride all
-Require all granted
-</Directory>
-
-RewriteEngine On
-RewriteCond %{HTTP_HOST} !^localhost
-RewriteCond %{HTTP_HOST} !^127.0.0.1
-RewriteCond %{HTTP_HOST} !^www\.
-RewriteRule ^ http%{ENV:protossl}://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-RewriteCond %{HTTPS} !on
-RewriteRule ^/(.*) https://%{SERVER_NAME}/$1 [R,L]
-
-```
-
-
-```
-ServerAdmin admin@mywebsite.com
-ServerName mywebsite.com
-ServerAlias www.mywebsite.com
-DocumentRoot /var/www/mywebsite.com/html
-ErrorLog ${APACHE_LOG_DIR}/error.log
-CustomLog ${APACHE_LOG_DIR}/access.log combined
-RewriteEngine on
-RewriteCond %{SERVER_NAME} =www.mywebsite.com [OR]
-RewriteCond %{SERVER_NAME} =mywebsite.com
-RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
-
 ```
 
 # Jupyter Hub
@@ -220,7 +183,7 @@ https://github.com/jupyterhub/jupyterhub/issues/470
 `pip install oauthenticator`
 
 #### Oauth with GitLab
-callback uri = `https://www.mywebsite.com:8000/hub/oauth_callback`
+callback uri = `https://www.example.com:8000/hub/oauth_callback`
 
 Add the following to jupyterhub_config.py using nano `nano ~/jupyterhub_config.py`
 ```
@@ -229,7 +192,7 @@ from oauthenticator.gitlab import GitLabOAuthenticator
 ## This is an application.
 # This is an application.
 c.JupyterHub.authenticator_class = 'oauthenticator.gitlab.GitLabOAuthenticator'
-c.GitLabOAuthenticator.oauth_callback_url = 'https://www.mywebsite.com:8000/hub/oauth_callback'
+c.GitLabOAuthenticator.oauth_callback_url = 'https://www.example.com:8000/hub/oauth_callback'
 c.GitLabOAuthenticator.client_id = 'abcd0123'
 c.GitLabOAuthenticator.client_secret = '0123abcd$
 ```
@@ -238,8 +201,8 @@ c.GitLabOAuthenticator.client_secret = '0123abcd$
 When editing the jupyterhub config file, point the key to the Let's Encrypt Certificate.
 
 ```
-c.JupyterHub.ssl_cert = '/etc/letsencrypt/live/mywebsite.com/fullchain.pem'
-c.JupyterHub.ssl_key = '/etc/letsencrypt/live/mywebsite.com/privkey.pem'
+c.JupyterHub.ssl_cert = '/etc/letsencrypt/live/example.com/fullchain.pem'
+c.JupyterHub.ssl_key = '/etc/letsencrypt/live/example.com/privkey.pem'
 ```
 
 ```
@@ -253,6 +216,8 @@ sudo adduser myuser
 
 sudo mkdir /home/myuser/notebooks
 
+sudo chown myuser:myuser /home/myuser/notebooks
+
 
 sudo nano jupyterhub_config.py
 c.Authenticator.whitelist = {'nipunsadvilkar', 'manasRK', 'Benybrahim'}
@@ -260,6 +225,9 @@ c.Authenticator.admin_users = {'nipunsadvilkar', 'manasRK'}
 c.LocalAuthenticator.create_system_users = True
 c.Spawner.notebook_dir = '~/notebooks'
 ```
+
+
+`jupyterhub`
 
 ### configure environments
 
@@ -328,6 +296,16 @@ https://gohugo.io/
 # Nvidia drivers
 ```
 sudo add-apt-repository ppa:graphics-drivers/ppa
+
 sudo apt update
-sudo apt-get install nvidia-(press tab to see latest)
+
+sudo ubuntu-drivers autoinstall
+
+sudo reboot
+
+sudo apt install nvidia-cuda-toolkit gcc-6
+
+nvcc --version
+
+nvidia-smi
 ```
