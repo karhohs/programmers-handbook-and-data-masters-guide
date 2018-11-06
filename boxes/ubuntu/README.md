@@ -26,7 +26,7 @@ sudo ufw enable
 # Static IP for convenient port forwarding
 My home network is somewhat unreliable and I must occasionally restart my router. When this happens, IP addresses will be reassigned to my devices, including the linux box. Configuring a static IP will make sure the network configuration is preserved when the network is reset.
 
-To get the name of the network adapter use the command `ifconfig -a`. My box has a network identifier `enp0s31f6`.
+To get the name of the network interface use the command `ifconfig -a`. My box has a network identifier `enp0s31f6`.
 
 Create a network configuration yaml file, `sudo nano /etc/netplan/01-netcfg.yaml`.
 
@@ -62,7 +62,8 @@ Add the public ssh key to authorized keys: `cat ~/.ssh/id_rsa.pub >> ~/.ssh/auth
 Make sure the ssh key for GitHub and GitLab are on the server in the ~/.ssh
 
 # Add new private keys to the ssh-agent
-Add `TCPKeepAlive yes` to `/etc/ssh/ssh_config` using nano.
+
+Add `TCPKeepAlive yes` to `/etc/ssh/ssh_config` using nano. This helps stabilize ssh connections.
 
 Then use the command
 ```
@@ -74,6 +75,20 @@ Change the permissions so they are not unprotected
 sudo chmod 600 ~/.ssh/id_rsa
 
 ssh-add ~/.ssh/id_rsa
+
+`nano ~/.ssh/config`
+
+```
+Host github.com
+        Hostname github.com
+        User git
+        IdentityFile ~/.ssh/id_rsa_github
+
+Host gitlab.com
+        Hostname gitlab.com
+        User git
+        IdentityFile ~/.ssh/id_rsa_gitlab
+```
 
 # Install miniconda
 
@@ -93,8 +108,6 @@ Add a *CNAME record* that maps www to domain name.
 https://www.digitalocean.com/community/tutorials/how-to-install-the-apache-web-server-on-ubuntu-18-04
 ```
 sudo apt install apache2
-
-
 
 sudo mkdir -p /var/www/example.com/html
 
@@ -170,6 +183,8 @@ Add these lines between <VirtualHost \*:443>
 ```
 
 # Jupyter Hub
+Note that the conda installation will install jupyterhub into the current or home directory. Wherever jupyterhub gets installed, remember the path information, because it is necessary for setting up a systemd process for jupyterhub.
+
 ```
 conda install -c conda-forge jupyterhub  # installs jupyterhub and proxy
 conda install notebook  # needed if running the notebook servers locally
@@ -226,8 +241,8 @@ c.LocalAuthenticator.create_system_users = True
 c.Spawner.notebook_dir = '~/notebooks'
 ```
 
-
-`jupyterhub`
+Jupyterhub must be run from the directory where it was installed. For conda installation this is the home directory.
+`sudo env "PATH=$PATH" jupyterhub`
 
 ### configure environments
 
@@ -237,61 +252,74 @@ c.Spawner.notebook_dir = '~/notebooks'
 `conda env create -f foobar_python_linux.yml`
 `source activate foobar`
 
-`sudo python -m ipykernel install --name foobar`
+`sudo env "PATH=$PATH"  python -m ipykernel install --name foobar`
 
 #start jupyterhub at startup
-https://github.com/jupyterhub/jupyterhub/wiki/Run-jupyterhub-as-a-system-service
+https://github.com/jupyterhub/jupyterhub/wiki/Run-jupyterhub-as-a-system-service#ubuntudebian-anaconda3-with-systemd
 
-which jupyterhub
-
-Add full path to the jupyterhub sqlite file in jupyter_config.py.
-
-`sudo systemctl enable jupyterhub.service`
-
-## the sudo PATH
-By default sudo uses a secure_path defined in the visudo configuration file. This will prevent `sudo jupyterhub` from running.
-
-Add the admin user to the exempt_group to circumvent this default security measure.
-
-First, `sudo visudo`. Then add this line `Defaults exempt_group=bigtuna`. Be careful, because this always disables the need to enter a password to use sudo powers.
-
-
-
-
-https://github.com/jupyterhub/jupyterhub/wiki/Installation-of-Jupyterhub-on-remote-server
-
-
-*Just for reference...*
-### Add SSL
-https://github.com/jupyterhub/jupyterhub/wiki/Installation-of-Jupyterhub-on-remote-server
-
-#### openssl
-https://testnb.readthedocs.io/en/stable/examples/Notebook/Configuring%20the%20Notebook%20and%20Server.html
 ```
-When you connect to a notebook server over HTTPS using a self-signed certificate, your browser will warn you of a dangerous certificate because it is self-signed. If you want to have a fully compliant certificate that will not raise warnings, it is possible (but rather involved) to obtain one, as explained in detail in this tutorial
+[Unit]
+Description=Jupyterhub
+After=syslog.target network.target
+
+[Service]
+User=root
+Environment="PATH=/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin::/home/foobar/miniconda3/bin"
+ExecStart=/home/foobar/miniconda3/bin/jupyterhub -f /home/foobar/jupyterhub_config.py
+
+[Install]
+WantedBy=multi-user.target
 ```
-Therefore, this may not be the best method.
-`openssl req ­-x509 ­-nodes ­-days 365 ­-newkey rsa:1024 ­-keyout mykey.key ­-out mycert.pem`
+`sudo systemctl daemon-reload`
+`sudo systemctl enable jupyterhub`
 
-*...now back to the configuration.*
+# Additional hard drives
+https://www.digitalocean.com/community/tutorials/how-to-partition-and-format-storage-devices-in-linux
+Find the disk.
+`lsblk`
+Initially, it won't have any partitions. Mine was listed as `sda` and type `disk`. If any partitions exist they'll be listed in a tree with type `part`.
 
+Similarly `sudo parted -l` will show new disks and whether or not there is a partition table.
 
+Create a single partition that spans the entire disk. **Make sure the disk identifier is correct, because these operations can lead to unintentional data loss.**
 
+`sudo parted /dev/sda mklabel gpt`
 
-# Blog
+`sudo parted -a opt /dev/sda mkpart primary ext4 0% 100%`
 
-## Install Discourse
-Discourse is the best for discussion and comments.
-https://www.discourse.org/
-https://github.com/discourse/discourse/blob/master/docs/INSTALL-cloud.md
-https://meta.discourse.org/t/embedding-discourse-comments-via-javascript/31963
-## Hugo
-https://gohugo.io/
+Check to see that a partition has been created using `lsblk`
 
-`sudo snap install hugo`
+Create a filesystem on the new partition.
+
+`sudo mkfs.ext4 -L datapartition /dev/sda1`
+
+Mount the new filesystem by updating fstab, so that the disk mounts at boot.
+
+Create the mount point. `sudo mkdir -p /mnt/data`
+
+Get the UUID of the filesystem. `sudo lsblk --fs`
+26eae060-7db5-468d-bea9-b45c2d399cc8
+`sudo nano /etc/fstab`
+
+e.g. `UUID=abcdefgh-0000-0000-0000-abcd0000efgh0000      /mnt/data       ext4    defaults        0       2`
+
+reboot
+
+Check to see if the disk is mounted with `df -h -x tmpfs -x devtmpfs | grep /dev/sda1`
+
+# Make a group for users
+sudo groupadd astronautninjas
+
+sudo usermod -a -G astronautninjas kyle
+
+## Make group the owners of a folder in /mnt/data
+
+`sudo chgrp -R astronautninjas /mnt/data/mydata`
+`sudo chmod -R 775 /mnt/data/mydata`
 
 
 # Docker
+
 
 # Nvidia drivers
 ```
