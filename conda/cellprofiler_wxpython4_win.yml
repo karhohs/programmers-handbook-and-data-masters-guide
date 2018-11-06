@@ -5,7 +5,7 @@
 name: cpwx4
 # in order of priority: lowest (top) to highest (bottom)
 channels:
-  - anaconda
+  - default
   - goodman # mysql-python for mac
   - bioconda
   - cyclus # java-jdk for windows

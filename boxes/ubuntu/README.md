@@ -323,7 +323,7 @@ sudo usermod -a -G astronautninjas kyle
 
 
 # Nvidia drivers
-To check GPU usage `nvidia-smi`
+To check GPU usage `watch gpustat`
 
 ```
 sudo add-apt-repository ppa:graphics-drivers/ppa
