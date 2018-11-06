@@ -4,9 +4,25 @@
 name: kaggle_python
 # in order of priority: lowest (top) to highest (bottom)
 channels:
-  - anaconda
+  - default
+  - conda-forge
+  - pytorch
+  - fastai
 dependencies:
+  - fastai
+  - keras
+  - jupyter
+  - matplotlib
+  - numpy
+  - pandas
   - pip # THE python package manager
   - python=3 # the latest python release
+  - pytorch
+  - scikit-image
+  - scikit-learn
+  - scipy
+  - seaborn
+  - tensorflow
+  - torchvision
   - pip:
     - kaggle
