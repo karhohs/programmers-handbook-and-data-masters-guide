@@ -233,13 +233,14 @@ sudo mkdir /home/myuser/notebooks
 
 sudo chown myuser:myuser /home/myuser/notebooks
 
-
 sudo nano jupyterhub_config.py
 c.Authenticator.whitelist = {'nipunsadvilkar', 'manasRK', 'Benybrahim'}
 c.Authenticator.admin_users = {'nipunsadvilkar', 'manasRK'}
 c.LocalAuthenticator.create_system_users = True
 c.Spawner.notebook_dir = '~/notebooks'
 ```
+
+`sudo adduser myuser sudo` if you want users to be sudo.
 
 Jupyterhub must be run from the directory where it was installed. For conda installation this is the home directory.
 `sudo env "PATH=$PATH" jupyterhub`
@@ -322,6 +323,8 @@ sudo usermod -a -G astronautninjas kyle
 
 
 # Nvidia drivers
+To check GPU usage `nvidia-smi`
+
 ```
 sudo add-apt-repository ppa:graphics-drivers/ppa
 

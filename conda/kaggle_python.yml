@@ -23,6 +23,7 @@ dependencies:
   - scipy
   - seaborn
   - tensorflow
-  - torchvision
+  - torchvision-nightly
   - pip:
+    - gpustat
     - kaggle
