@@ -96,7 +96,18 @@ Host gitlab.com
 wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
 bash Miniconda3-latest-Linux-x86_64.sh
 ```
-For convenience add miniconda to the .bashrc PATH when prompted during the installation process.
+For convenience add miniconda to the .bashrc PATH when prompted during the installation process. Do this for each user and make miniconda accessible by the group.
+
+`sudo chgrp -R astronautninjas ~/miniconda3`
+
+## For each user to do...
+`echo 'export PATH="/home/kyleroot/miniconda3/bin:$PATH"' >> /home/user/.bashrc`
+
+## Setup for all users
+`conda config --write-default`
+
+
+
 
 ### Register a domain with Google Domains
 Go to google domains and register a domain.
@@ -323,7 +334,7 @@ sudo usermod -a -G astronautninjas kyle
 
 
 # Nvidia drivers
-To check GPU usage `watch gpustat`
+
 
 ```
 sudo add-apt-repository ppa:graphics-drivers/ppa
@@ -340,3 +351,33 @@ nvcc --version
 
 nvidia-smi
 ```
+GPU monitoring:
+`whereis nvidia-smi`
+
+`sudo nano /etc/systemd/system/nvidia-smi-daemon.service`
+
+```
+[Unit]
+Description=nvidia-smi daemon
+After=multi-user.target
+
+[Service]
+User=root
+Type=forking
+ExecStart=/usr/bin/nvidia-smi daemon -d 60
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+```
+
+`sudo systemctl daemon-reload`
+`sudo systemctl enable nvidia-smi-daemon.service`
+
+Location of logs /var/log/nvstats/
+
+For realtime monitioring...
+To check GPU usage `watch gpustat` or `watch nvidia-smi`
+
+To get the NVIDIA logs
+`sudo nvidia-smi replay -f /var/log/nvstats/nvstats-YYYYMMDD -r nvstats-YYYYMMDD.csv`
