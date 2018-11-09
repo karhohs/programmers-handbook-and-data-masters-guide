@@ -26,4 +26,4 @@ dependencies:
   - tensorflow
   - torchvision-nightly
   - pip:
-    - kaggle-cli
+    - kaggle
