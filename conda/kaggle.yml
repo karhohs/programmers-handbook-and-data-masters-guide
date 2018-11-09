@@ -9,6 +9,7 @@ channels:
   - pytorch
   - fastai
 dependencies:
+  - bokeh
   - fastai
   - keras
   - jupyter
@@ -25,5 +26,4 @@ dependencies:
   - tensorflow
   - torchvision-nightly
   - pip:
-    - gpustat
-    - kaggle
+    - kaggle-cli
