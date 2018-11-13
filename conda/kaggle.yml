@@ -18,7 +18,8 @@ dependencies:
   - pandas
   - pip # THE python package manager
   - python=3 # the latest python release
-  - pytorch
+  - pytorch-nightly
+  - cuda92
   - scikit-image
   - scikit-learn
   - scipy
