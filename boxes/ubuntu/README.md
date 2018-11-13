@@ -7,7 +7,7 @@
 
 # Setting up SSH
 ```bash
-sudo apt-get -y install ssh net-tools tmux git
+sudo apt-get -y install ssh net-tools tmux git dtrx
 ```
 
 ## Allow SSH through the default ufw firewall
@@ -73,6 +73,8 @@ eval `ssh-agent -s`
 Change the permissions so they are not unprotected
 
 sudo chmod 600 ~/.ssh/id_rsa
+
+sudo chmod 700 ~/.ssh
 
 ssh-add ~/.ssh/id_rsa
 
