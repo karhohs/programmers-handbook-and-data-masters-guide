@@ -185,14 +185,36 @@ Let's Encrypt will create a new config file for the apache2 virtual host.
 
 It will be named `/etc/apache2/sites-available/example.com-le-ssl.conf`. Use nano.
 
-Add these lines between <VirtualHost \*:443>
+Synchronize the file with the text below:
 ```
-<Directory /var/www/example.com/>
-  RewriteEngine On
-  RewriteBase /
-  RewriteCond %{HTTP_HOST} !^www\. [NC]
-  RewriteRule ^(.*)$ https://www.%{HTTP_HOST}/$1 [R=301,L]
+<IfModule mod_ssl.c>
+<VirtualHost *:80>
+    ServerName example.com
+    ServerAlias www.example.com
+    Redirect / https://www.example.com
+</VirtualHost>
+
+<VirtualHost _default_:443>
+    ServerAdmin admin@example.com
+    ServerName example.com
+    ServerAlias www.example.com
+    DocumentRoot /var/www/example.com/html
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+Include /etc/letsencrypt/options-ssl-apache.conf
+SSLCertificateFile /etc/letsencrypt/live/example.com/fullchain.pem
+SSLCertificateKeyFile /etc/letsencrypt/live/example.com/privkey.pem
+
+<Directory /var/www/example.com>
+    Options Indexes FollowSymLinks
+    AllowOverride All
+    Require all granted
 </Directory>
+
+</VirtualHost>
+</IfModule>
+
 ```
 
 # Jupyter Hub
