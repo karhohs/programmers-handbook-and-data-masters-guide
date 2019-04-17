@@ -7,7 +7,7 @@
 
 # Setting up SSH
 ```bash
-sudo apt-get -y install ssh net-tools tmux git dtrx
+sudo apt -y install ssh net-tools tmux git dtrx libopenblas-dev
 ```
 
 ## Allow SSH through the default ufw firewall
@@ -108,7 +108,10 @@ For convenience add miniconda to the .bashrc PATH when prompted during the insta
 ## Setup for all users
 `conda config --write-default`
 
-
+## Add channels
+To add channels to conda, `conda config --add channels conda-forge`.
+`conda config --add channels fastai`
+`conda config --add channels pytorch`
 
 
 ### Register a domain with Google Domains
@@ -179,6 +182,18 @@ Change permission of certificates
 
 `sudo chown -R $USER:$USER /etc/letsencrypt`
 
+#### Add a second certificate
+https://www.digitalocean.com/community/tutorials/how-to-set-up-let-s-encrypt-certificates-for-multiple-apache-virtual-hosts-on-ubuntu-14-04
+
+Just repeat the above steps.
+1. `sudo certbot --apache -d example2.com -d www.example2.com`
+1. Change the permissions of the certificate.
+
+#### Setup auto renewal
+1. `sudo crontab -e` will open the crontab editor.
+2. Add the following line to the file:
+   1. `15 3 * * * /usr/bin/certbot renew --quiet`
+
 ### redirect
 https://www.digitalocean.com/community/tutorials/how-to-redirect-www-to-non-www-with-apache-on-ubuntu-14-04
 Let's Encrypt will create a new config file for the apache2 virtual host.
@@ -214,8 +229,9 @@ SSLCertificateKeyFile /etc/letsencrypt/live/example.com/privkey.pem
 
 </VirtualHost>
 </IfModule>
-
 ```
+
+To renew use the command `sudo certbot renew`.
 
 # Jupyter Hub
 Note that the conda installation will install jupyterhub into the current or home directory. Wherever jupyterhub gets installed, remember the path information, because it is necessary for setting up a systemd process for jupyterhub.
@@ -309,6 +325,29 @@ WantedBy=multi-user.target
 `sudo systemctl daemon-reload`
 `sudo systemctl enable jupyterhub`
 
+## Extensions
+`conda install -c conda-forge jupyter_contrib_nbextensions`
+`jupyter contrib nbextension install --system --sys-prefix`
+`sudo /home/myhome/miniconda3/bin/jupyter contrib nbextension install --system`
+
+ sudo /home/kyleroot/miniconda3/bin/jupyter nbextension enable varInspector/main
+ sudo /home/kyleroot/miniconda3/bin/jupyter nbextension enable toc2/main
+ sudo /home/kyleroot/miniconda3/bin/jupyter nbextension enable collapsible_headings/main
+
+ nano /home/kyleroot/miniconda3/etc/jupyter/nbconfig/notebook.json
+
+```
+{
+  "load_extensions": {
+    "nbextensions_configurator/config_menu/main": true,
+    "contrib_nbextensions_help_item/main": true,
+    "toc2/main": true,
+    "varInspector/main": true,
+    "collapsible_headings/main": true
+  }
+}
+```
+
 # Additional hard drives
 https://www.digitalocean.com/community/tutorials/how-to-partition-and-format-storage-devices-in-linux
 Find the disk.
@@ -353,6 +392,8 @@ sudo usermod -a -G astronautninjas kyle
 `sudo chgrp -R astronautninjas /mnt/data/mydata`
 `sudo chmod -R 775 /mnt/data/mydata`
 
+`sudo chmod -R g+wrx`
+`sudo chmod -R g+swrx` runs as sudo automatically
 
 # Docker
 
